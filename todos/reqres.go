@@ -1,5 +1,11 @@
 package todo
 
+import (
+	"context"
+	"encoding/json"
+	"net/http"
+)
+
 type (
 	//AddTodoRequest ...
 	AddTodoRequest struct {
@@ -18,7 +24,6 @@ type (
 	// GetByIDResponse ...
 	GetByIDResponse struct {
 		Text string `json:"text"`
-		Completed bool `json:"completed"`
 	}
 	//DeleteTodoRequest ...
 	DeleteTodoRequest struct {
@@ -39,3 +44,16 @@ type (
 		Updated string `json:"updated"`
 	}
 )
+
+func encodeReponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	return json.NewEncoder(w).Encode(response)
+}
+
+func decodeTodo(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req AddTodoRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
+}
