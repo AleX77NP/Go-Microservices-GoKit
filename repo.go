@@ -48,7 +48,7 @@ func (repo *repo) GetByID(ctx context.Context, id string) (string, error) {
 }
 
 func (repo *repo) Delete(ctx context.Context, id string) error {
-	_, err := repo.db.Exec("DELETE FROM todos WHERE ID=$1", id)
+	_, err := repo.db.ExecContext(ctx,"DELETE FROM todos WHERE ID=$1", id)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (repo *repo) Delete(ctx context.Context, id string) error {
 func (repo *repo) Update(ctx context.Context, id string, text string, completed bool) (string, error) {
 	sql := `UPDATE todos SET text=$2, completed=$3 WHERE ID=$1`
 
-	_, err := repo.db.Exec(sql, id,text, completed)
+	_, err := repo.db.ExecContext(ctx,sql, id,text, completed)
 
 	if err != nil {
 		return "",err
