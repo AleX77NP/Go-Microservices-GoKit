@@ -9,23 +9,23 @@ import (
 
 type service struct {
 	repository Repository
-	logger log.Logger
+	logger     log.Logger
 }
 
 // NewService function
 func NewService(rep Repository, logger log.Logger) Service {
 	return &service{
 		repository: rep,
-		logger: logger,
+		logger:     logger,
 	}
 }
 
-func (s service) Add(ctx context.Context, id string, text string, completed bool) (string,error) {
-	logger:= log.With(s.logger, "methpd", "Add")
+func (s service) Add(ctx context.Context, id string, text string, completed bool) (string, error) {
+	logger := log.With(s.logger, "method", "Add")
 
-	todo := Todo {
-		ID: id,
-		Text: text,
+	todo := Todo{
+		ID:        id,
+		Text:      text,
 		Completed: completed,
 	}
 
@@ -33,23 +33,23 @@ func (s service) Add(ctx context.Context, id string, text string, completed bool
 		level.Error(logger).Log("err", err)
 		return "", err
 	}
-	logger.Log("create todo",id)
+	logger.Log("create todo", id)
 	return "Success", nil
 }
 
 func (s service) Delete(ctx context.Context, id string) error {
-	logger:= log.With(s.logger, "methpd", "Delete")
+	logger := log.With(s.logger, "method", "Delete")
 
 	if err := s.repository.Delete(ctx, id); err != nil {
 		level.Error(logger).Log("err", err)
 		return err
 	}
-	logger.Log("delete todo",id)
+	logger.Log("Delete todo", id)
 	return nil
 }
 
 func (s service) GetByID(ctx context.Context, id string) (string, error) {
-	logger:= log.With(s.logger, "methpd", "GetByID")
+	logger := log.With(s.logger, "method", "GetByID")
 
 	todo, err := s.repository.GetByID(ctx, id)
 
@@ -63,8 +63,8 @@ func (s service) GetByID(ctx context.Context, id string) (string, error) {
 	return todo, nil
 }
 
-func (s service) Update(ctx context.Context, id string, text string, completed bool) (string,error) {
-	logger:= log.With(s.logger, "methpd", "Update")
+func (s service) Update(ctx context.Context, id string, text string, completed bool) (string, error) {
+	logger := log.With(s.logger, "method", "Update")
 
 	updated, err := s.repository.Update(ctx, id, text, completed)
 
@@ -73,7 +73,7 @@ func (s service) Update(ctx context.Context, id string, text string, completed b
 		return "", err
 	}
 
-	logger.Log("Get Todo", id)
+	logger.Log("Update Todo", id)
 
 	return updated, nil
 }

@@ -20,6 +20,24 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 		encodeReponse,
 	))
 
+	r.Methods("GET").Path("/todo/{id}").Handler(httptransport.NewServer(
+		endpoints.GetByID,
+		decodeIDReq,
+		encodeReponse,
+	))
+
+	r.Methods("DELETE").Path("/todo/{id}").Handler(httptransport.NewServer(
+		endpoints.Delete,
+		decodeDeleteReq,
+		encodeReponse,
+	))
+
+	r.Methods("PUT").Path("/todo/{id}").Handler(httptransport.NewServer(
+		endpoints.Update,
+		decodeUpdateReq,
+		encodeReponse,
+	))
+
 	return r
 }
 

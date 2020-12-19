@@ -43,7 +43,7 @@ func makeGetByIDEndpoint(s Service) endpoint.Endpoint {
 
 func makeDeleteEndPoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(AddTodoRequest)
+		req := request.(DeleteTodoRequest)
 		err := s.Delete(ctx, req.ID)
 		return DeleteTodoResponse{Deleted: "deleted"},err
 	}
@@ -51,7 +51,7 @@ func makeDeleteEndPoint(s Service) endpoint.Endpoint {
 
 func makeUpdateEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(AddTodoRequest)
+		req := request.(UpdateTodoRequest)
 		_, err := s.Update(ctx, req.ID, req.Text, req.Completed)
 		return UpdateTodoResponse{Updated:  "updated"},err
 	}

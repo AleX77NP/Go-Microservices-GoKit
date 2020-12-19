@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type (
@@ -56,4 +58,34 @@ func decodeTodo(ctx context.Context, r *http.Request) (interface{}, error) {
 		return nil, err
 	}
 	return req, nil
+}
+
+func decodeIDReq(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req GetByIDRequest
+	vars := mux.Vars(r)
+
+	req = GetByIDRequest{
+		ID: vars["id"],
+	}
+	return req,nil
+}
+
+func decodeDeleteReq(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req DeleteTodoRequest
+	vars := mux.Vars(r)
+
+	req = DeleteTodoRequest{
+		ID: vars["id"],
+	}
+	return req,nil
+}
+
+func decodeUpdateReq(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req UpdateTodoRequest
+	vars := mux.Vars(r)
+
+	req = UpdateTodoRequest{
+		ID: vars["id"],
+	}
+	return req,nil
 }

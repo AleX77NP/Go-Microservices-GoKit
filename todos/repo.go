@@ -56,9 +56,9 @@ func (repo *repo) Delete(ctx context.Context, id string) error {
 }
 
 func (repo *repo) Update(ctx context.Context, id string, text string, completed bool) (string, error) {
-	sql := `UPDATE todos SET text=$2, completed=$3 WHERE ID=$1`
+	sql := `UPDATE todos SET text=$2, completed=$3 WHERE id=$1`
 
-	_, err := repo.db.ExecContext(ctx,sql, id,text, completed)
+	_, err := repo.db.ExecContext(ctx, sql, id, text, completed)
 
 	if err != nil {
 		return "",err
